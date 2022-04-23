@@ -21,7 +21,8 @@ public class Restaurant extends AbstractBaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Dish> menu;
 
-    public Restaurant(String name) {
+    public Restaurant(Integer id, String name) {
+        super(id);
         this.name = name;
     }
 

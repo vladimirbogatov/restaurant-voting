@@ -13,6 +13,12 @@ public class DataJpaVotesRepository implements VotesRepository {
     CrudRestaurantRepository crudRestaurantRepository;
     CrudUserRepository crudUserRepository;
 
+    public DataJpaVotesRepository(CrudVotesRepository crudVotesRepository, CrudRestaurantRepository crudRestaurantRepository,
+                                  CrudUserRepository crudUserRepository) {
+        this.crudVotesRepository = crudVotesRepository;
+        this.crudRestaurantRepository = crudRestaurantRepository;
+        this.crudUserRepository = crudUserRepository;
+    }
 
     @Override
     @Transactional
@@ -27,17 +33,25 @@ public class DataJpaVotesRepository implements VotesRepository {
     }
 
     @Override
-    public boolean delete(int restaurantId, int userId) {
-        return false;
+    public boolean delete(int userId, int restaurantId, LocalDate date) {
+        return crudVotesRepository.delete(userId, restaurantId, date) != 0;
     }
 
     @Override
     public Votes getActualVotesByUserId(int userId, int restaurantId, LocalDate date) {
-        return crudVotesRepository.getActualVotesByUserId(userId, restaurantId, date);
+        return crudVotesRepository.getAllVotesOfUser(userId, date, null).stream()
+                .filter(votes -> votes.getRestaurant().getId() == restaurantId).findFirst().orElse(null);
     }
 
     @Override
-    public List<Votes> getAll(int userId) {
-        return null;
+    public List<Votes> getAllVotesOfUser(int userId, LocalDate startDate, LocalDate endDate) {
+        return crudVotesRepository.getAllVotesOfUser(userId, startDate, endDate);
     }
+
+    @Override
+    public List<Votes> getAllVotesForRestaurants(int restaurants_id, LocalDate startDate, LocalDate endDate) {
+        return crudVotesRepository.getAllVotesForRestaurants(restaurants_id, startDate, endDate);
+    }
+
+
 }

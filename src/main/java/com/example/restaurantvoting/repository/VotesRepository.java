@@ -11,10 +11,12 @@ public interface VotesRepository {
     Votes save(int userId, int restaurantId);
 
     // false if not found
-    boolean delete(int restaurantId, int userId);
+    boolean delete(int userId, int restaurantId, LocalDate date);
 
     // null if not found
     Votes getActualVotesByUserId(int userId, int restaurantId, LocalDate date);
 
-    List<Votes> getAll(int userId);
+    List<Votes> getAllVotesOfUser(int userId, LocalDate startDate, LocalDate endDate);
+
+    List<Votes> getAllVotesForRestaurants(int restaurants_id, LocalDate startDate, LocalDate endDate);
 }

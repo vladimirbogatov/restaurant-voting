@@ -6,7 +6,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Entity
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "restuarant_id", "date"}, name = "name_unique_votes_idx")})
@@ -27,10 +26,6 @@ public class Votes extends AbstractBaseEntity {
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDate date;
-
-    @NotNull
-    @Temporal(TemporalType.DATE)
-    private LocalTime time;
 
     public Votes() {
     }
@@ -62,13 +57,5 @@ public class Votes extends AbstractBaseEntity {
 
     public void setDate(LocalDate date) {
         this.date = date;
-    }
-
-    public LocalTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
     }
 }
