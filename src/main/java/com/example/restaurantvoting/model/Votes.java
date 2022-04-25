@@ -1,14 +1,19 @@
 package com.example.restaurantvoting.model;
 
-import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "restuarant_id", "date"}, name = "name_unique_votes_idx")})
+@Data
+@NoArgsConstructor
+@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"}, name = "name_unique_votes_idx")})
 public class Votes extends AbstractBaseEntity {
 
     @NotNull
@@ -24,38 +29,10 @@ public class Votes extends AbstractBaseEntity {
     private Restaurant restaurant;
 
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDate date;
-
-    public Votes() {
-    }
 
     public Votes(User user, Restaurant restaurant) {
         this.user = user;
         this.restaurant = restaurant;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 }

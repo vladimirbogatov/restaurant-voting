@@ -18,7 +18,7 @@ public interface CrudVotesRepository extends JpaRepository<Votes, Integer> {
     int delete(@Param("user_id") int userId, @Param("restaurant_id") int restaurantId, @Param("date") LocalDate date);
 
     @Transactional
-    @Query("SELECT v from Votes v WHERE v.restaurant.id=:restaurand_id AND v.date >= :startDate AND v.date < :endDate")
+    @Query("SELECT v from Votes v WHERE v.restaurant.id=:restaurant_id AND v.date >= :startDate AND v.date < :endDate")
     List<Votes> getAllVotesForRestaurants(@Param("restaurant_id") int restaurants_id, @Param("startDate") LocalDate startDate,
                                           @Param("endDate") LocalDate endDate);
 

@@ -1,14 +1,19 @@
 package com.example.restaurantvoting.model;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 
 @Entity
-@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "restuarant_id"}, name = "name_unique_restaurant_idx")})
+@NoArgsConstructor
+@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "restaurant_id"}, name = "dish_unique_for_restaurant_idx")})
 public class Dish extends AbstractBaseEntity {
 
     @Size(max = 128)
@@ -20,21 +25,9 @@ public class Dish extends AbstractBaseEntity {
     private float price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restuarant_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Restaurant restaurant;
-
-    // TODO: 14.04.2022 del
-/*
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    // TODO: 12.04.2022 проверить JacksonBack reference
-//    @JsonBackReference
-    private Restaurant restaurant;*/
-
-    public Dish() {
-    }
+    private Restaurant restaurant;
 
     public String getName() {
         return name;
@@ -59,16 +52,4 @@ public class Dish extends AbstractBaseEntity {
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
-
-    // TODO: 14.04.2022 del
-/*    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }*/
-
-
-
 }

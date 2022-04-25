@@ -32,7 +32,9 @@ public class DataJpaRetaurantRepository implements RestaurantRepository {
 
     @Override
     public Restaurant get(int restaurantId) {
-        return crudRestaurantRepository.findById(restaurantId).orElse(null);
+        Restaurant result = crudRestaurantRepository.findById(restaurantId).orElse(null);
+        System.out.println(result);
+        return result;
     }
 
     @Override

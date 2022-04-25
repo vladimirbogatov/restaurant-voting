@@ -1,13 +1,17 @@
 package com.example.restaurantvoting.model;
 
-import com.example.restaurantvoting.HasId;
-import org.hibernate.Hibernate;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
-public abstract class AbstractBaseEntity implements HasId {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public abstract class AbstractBaseEntity {
 
     public static final int START_SEQ = 100_000;
 
@@ -16,36 +20,8 @@ public abstract class AbstractBaseEntity implements HasId {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     public Integer id;
 
-    protected AbstractBaseEntity() {
-    }
-
-    protected AbstractBaseEntity(int id) {
-        this.id = id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || !getClass().equals(Hibernate.getClass(o))) {
-            return false;
-        }
-        AbstractBaseEntity that = (AbstractBaseEntity) o;
-        return id != null && id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id == null ? 0 : id;
+    public boolean isNew() {
+        return getId() == null;
     }
 
 }

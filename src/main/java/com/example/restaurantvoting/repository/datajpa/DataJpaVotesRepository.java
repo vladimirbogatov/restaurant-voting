@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
+//@Repository
 public class DataJpaVotesRepository implements VotesRepository {
 
     CrudVotesRepository crudVotesRepository;
