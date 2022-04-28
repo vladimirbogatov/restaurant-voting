@@ -1,4 +1,4 @@
-package com.example.restaurantvoting;
+package com.example.restaurantvoting.repository;
 
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;

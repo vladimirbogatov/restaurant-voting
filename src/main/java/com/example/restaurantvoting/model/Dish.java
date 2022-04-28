@@ -1,20 +1,33 @@
 package com.example.restaurantvoting.model;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 
 @Entity
 @NoArgsConstructor
+@Getter
+@Setter
 @Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "restaurant_id"}, name = "dish_unique_for_restaurant_idx")})
+@ToString(callSuper = true)
 public class Dish extends AbstractBaseEntity {
+
+    @ManyToOne
+    @Fetch(FetchMode.JOIN)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Restaurant restaurant;
 
     @Size(max = 128)
     @NotNull
@@ -24,32 +37,24 @@ public class Dish extends AbstractBaseEntity {
     @Column(scale = 2)
     private float price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Restaurant restaurant;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public Dish(Integer id, Restaurant restaurant, String name, float price) {
+        super(id);
+        this.restaurant = restaurant;
         this.name = name;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
         this.price = price;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Dish dish = (Dish) o;
+        return Float.compare(dish.price, price) == 0 && Objects.equals(restaurant, dish.restaurant) && Objects.equals(name, dish.name);
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), restaurant, name, price);
     }
 }

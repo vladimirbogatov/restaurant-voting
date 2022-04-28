@@ -1,13 +1,13 @@
-package com.example.restaurantvoting.repository.datajpa;
+package com.example.restaurantvoting.repository;
 
 import com.example.restaurantvoting.model.User;
-import com.example.restaurantvoting.repository.UserReprository;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-//@Repository
+@Repository
 @Transactional(readOnly = true)
 public class DataJpaUserRepository implements UserReprository {
 
@@ -19,11 +19,13 @@ public class DataJpaUserRepository implements UserReprository {
         this.crudUserRepository = crudUserRepository;
     }
 
+    @Transactional
     @Override
     public User save(User user) {
         return crudUserRepository.save(user);
     }
 
+    @Transactional
     @Override
     public boolean delete(int userId) {
         return crudUserRepository.delete(userId) != 0;

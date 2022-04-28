@@ -17,9 +17,5 @@ public class RestaurantsTestData {
     public static Restaurant getNew() {
         return new Restaurant(null, "Новый ресторан");
     }
-
-    public static Restaurant getUpdated() {
-        return new Restaurant(RESTAURANT_ID, "Обновлённая Прага");
-    }
 }
 

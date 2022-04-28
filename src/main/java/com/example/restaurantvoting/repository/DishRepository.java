@@ -4,7 +4,7 @@ import com.example.restaurantvoting.model.Dish;
 
 import java.util.List;
 
-public interface DishReprository {
+public interface DishRepository {
 
     // null if not found, when updated
     Dish save(Dish dish, int restaurantId);

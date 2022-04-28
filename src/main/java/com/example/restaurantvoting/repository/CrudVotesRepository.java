@@ -1,4 +1,4 @@
-package com.example.restaurantvoting.repository.datajpa;
+package com.example.restaurantvoting.repository;
 
 import com.example.restaurantvoting.model.Votes;
 import org.springframework.data.jpa.repository.JpaRepository;

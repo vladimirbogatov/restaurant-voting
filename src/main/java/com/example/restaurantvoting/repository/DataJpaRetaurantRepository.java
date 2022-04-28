@@ -1,7 +1,6 @@
-package com.example.restaurantvoting.repository.datajpa;
+package com.example.restaurantvoting.repository;
 
 import com.example.restaurantvoting.model.Restaurant;
-import com.example.restaurantvoting.repository.RestaurantRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,11 +20,13 @@ public class DataJpaRetaurantRepository implements RestaurantRepository {
     }
 
     @Override
+    @Transactional
     public Restaurant save(Restaurant restaurant) {
         return crudRestaurantRepository.save(restaurant);
     }
 
     @Override
+    @Transactional
     public boolean delete(int restaurantId) {
         return crudRestaurantRepository.delete(restaurantId) != 0;
     }

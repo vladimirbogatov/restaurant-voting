@@ -1,13 +1,14 @@
-package com.example.restaurantvoting.repository.datajpa;
+package com.example.restaurantvoting.repository;
 
 import com.example.restaurantvoting.model.Votes;
-import com.example.restaurantvoting.repository.VotesRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 
-//@Repository
+@Repository
+@Transactional(readOnly = true)
 public class DataJpaVotesRepository implements VotesRepository {
 
     CrudVotesRepository crudVotesRepository;
@@ -34,6 +35,7 @@ public class DataJpaVotesRepository implements VotesRepository {
     }
 
     @Override
+    @Transactional
     public boolean delete(int userId, int restaurantId, LocalDate date) {
         return crudVotesRepository.delete(userId, restaurantId, date) != 0;
     }

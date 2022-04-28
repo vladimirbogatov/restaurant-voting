@@ -1,7 +1,6 @@
-package com.example.restaurantvoting.repository.datajpa;
+package com.example.restaurantvoting.repository;
 
 import com.example.restaurantvoting.model.Dish;
-import com.example.restaurantvoting.repository.DishReprository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,7 +8,7 @@ import java.util.List;
 
 @Repository
 @Transactional(readOnly = true)
-public class DataJpaDishRepository implements DishReprository {
+public class DataJpaDishRepository implements DishRepository {
 
     CrudDishRepository crudDishRepository;
     CrudRestaurantRepository crudRestaurantRepository;
@@ -30,6 +29,7 @@ public class DataJpaDishRepository implements DishReprository {
     }
 
     @Override
+    @Transactional
     public boolean delete(int dishId, int restaurantId) {
         return crudDishRepository.delete(dishId, restaurantId) != 0;
     }
@@ -41,6 +41,7 @@ public class DataJpaDishRepository implements DishReprository {
 
     @Override
     public List<Dish> getMenu(int restaurantId) {
-        return crudDishRepository.getMenu(restaurantId);
+        List<Dish> result = crudDishRepository.getMenu(restaurantId);
+        return result;
     }
 }

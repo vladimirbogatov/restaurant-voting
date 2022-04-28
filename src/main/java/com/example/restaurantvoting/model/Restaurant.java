@@ -1,18 +1,21 @@
 package com.example.restaurantvoting.model;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "restaurants")
+@Getter
+@Setter
 @NoArgsConstructor
 public class Restaurant extends AbstractBaseEntity {
 
@@ -34,34 +37,25 @@ public class Restaurant extends AbstractBaseEntity {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Dish> getMenu() {
-        return menu;
-    }
-
-    public void setMenu(List<Dish> menu) {
-        this.menu = menu;
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id=" + id +
+                ", name=" + name +
+                '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof Restaurant)) {
-            return false;
-        }
-
-        Restaurant restaurant = (Restaurant) o;
-
-        return name.equals(restaurant.name);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Restaurant that = (Restaurant) o;
+        return name.equals(that.name) && id.equals(that.id);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, id);
+    }
 }

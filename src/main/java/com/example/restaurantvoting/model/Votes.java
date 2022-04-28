@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -34,5 +33,10 @@ public class Votes extends AbstractBaseEntity {
     public Votes(User user, Restaurant restaurant) {
         this.user = user;
         this.restaurant = restaurant;
+    }
+
+    public Votes(User user, Restaurant restaurant, LocalDate date) {
+        this(user, restaurant);
+        this.date = date;
     }
 }
