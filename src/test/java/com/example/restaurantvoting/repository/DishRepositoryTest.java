@@ -23,29 +23,29 @@ class DishRepositoryTest extends AbstractTestClass {
 
     @Test
     void save() {
-        Dish actual = dishRepository.save(DishTestData.getNew(), RESTAURANT1.getId());
-        assertThat(dishRepository.get(actual.getId(), RESTAURANT1.getId())).isNotNull();
+        Dish actual = dishRepository.save(DishTestData.getNew());
+        assertThat(dishRepository.getById(actual.getId())).isNotNull();
 
     }
 
     @Test
     void delete() {
         int restaurantId = RESTAURANT1.getId();
-        dishRepository.delete(DISH1_RESTAURANT1.getId(), restaurantId);
+        dishRepository.delete(DISH1_RESTAURANT1.getId());
         assertThat(dishRepository.getMenu(restaurantId)).usingRecursiveComparison().ignoringFields("restaurant.menu")
                 .ignoringCollectionOrder().isEqualTo(List.of(DISH2_RESTAURANT1, DISH3_RESTAURANT1));
     }
 
     @Test
     void get() {
-        assertThat(dishRepository.get(DISH1_RESTAURANT1.getId(), DISH1_RESTAURANT1.getRestaurant().getId()))
+        assertThat(dishRepository.getById(DISH1_RESTAURANT1.getId()))
                 .isEqualTo(DishTestData.DISH1_RESTAURANT1);
     }
 
     @Test
     void getMenu() {
         List<Dish> actualMenuRestaurant1 = dishRepository.getMenu(RESTAURANT1.getId());
-        assertThat(actualMenuRestaurant1).usingRecursiveComparison().ignoringFields("restaurant.menu")
+        assertThat(actualMenuRestaurant1).usingRecursiveComparison().ignoringFields("restaurant")
                 .ignoringCollectionOrder().isEqualTo(MENU_RESTAURANT1);
     }
 }

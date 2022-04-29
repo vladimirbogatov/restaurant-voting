@@ -1,19 +1,13 @@
 package com.example.restaurantvoting.repository;
 
 import com.example.restaurantvoting.model.Dish;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface DishRepository {
+public interface DishRepository extends BaseRepository<Dish> {
 
-    // null if not found, when updated
-    Dish save(Dish dish, int restaurantId);
-
-    // false if not found
-    boolean delete(int dishId, int restaurantId);
-
-    // null if not found
-    Dish get(int dishId, int restaurantId);
-
-    List<Dish> getMenu(int restaurantId);
+    @Query("SELECT d FROM Dish d WHERE d.restaurant.id=:restaurant_id ORDER BY d.price ASC  ")
+    List<Dish> getMenu(@Param("restaurant_id") int restaurantId);
 }

@@ -1,22 +1,30 @@
 package com.example.restaurantvoting.repository;
 
 import com.example.restaurantvoting.model.Votes;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public interface VotesRepository {
+public interface VotesRepository extends JpaRepository<Votes, Integer> {
 
-    // null if not found, when updated
-    Votes save(int userId, int restaurantId);
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Votes v WHERE v.user.id=:user_id AND v.restaurant.id=:restaurant_id AND v.date=:date")
+    int delete(@Param("user_id") int userId, @Param("restaurant_id") int restaurantId, @Param("date") LocalDate date);
 
-    // false if not found
-    boolean delete(int userId, int restaurantId, LocalDate date);
+    @Transactional
+    @Query("SELECT v from Votes v WHERE v.restaurant.id=:restaurant_id AND v.date >= :startDate AND v.date < :endDate")
+    List<Votes> getAllVotesForRestaurants(@Param("restaurant_id") int restaurants_id, @Param("startDate") LocalDate startDate,
+                                          @Param("endDate") LocalDate endDate);
 
-    // null if not found
-    Votes getActualVotesByUserId(int userId, int restaurantId, LocalDate date);
+    @Transactional
+    @Query("SELECT v from Votes v WHERE v.user.id=:user_id AND v.date >= :startDate AND v.date < :endDate")
+    List<Votes> getAllVotesOfUser(@Param("user_id") int user_id, @Param("startDate") LocalDate startDate,
+                                  @Param("endDate") LocalDate endDate);
 
-    List<Votes> getAllVotesOfUser(int userId, LocalDate startDate, LocalDate endDate);
-
-    List<Votes> getAllVotesForRestaurants(int restaurants_id, LocalDate startDate, LocalDate endDate);
 }

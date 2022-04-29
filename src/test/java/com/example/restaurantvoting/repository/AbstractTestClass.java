@@ -8,4 +8,5 @@ import org.springframework.test.context.jdbc.SqlConfig;
 @Sql(scripts = {"classpath:schema.sql","classpath:data.sql"}, config = @SqlConfig(encoding = "UTF-8"))
 @Sql(scripts = "classpath:data.sql", config = @SqlConfig(encoding = "UTF-8"), executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public abstract class AbstractTestClass {
+
 }

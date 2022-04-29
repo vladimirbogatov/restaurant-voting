@@ -14,34 +14,33 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class UserRepositoryTest extends AbstractTestClass{
+class UserRepositoryTest extends AbstractTestClass {
 
     @Autowired
-    UserReprository userReprository;
+    UserRepository userRepository;
 
     @Test
     void save() {
-        User actual = userReprository.save(getNew());
-        System.out.println(actual);
+        User actual = userRepository.save(getNew());
         assertThat(actual).isNotNull();
     }
 
     @Test
     void delete() {
-        userReprository.delete(USER.getId());
-        assertThat(userReprository.getAll()).usingRecursiveComparison().ignoringFields("password","registered")
+        userRepository.delete(USER.getId());
+        assertThat(userRepository.findAll()).usingRecursiveComparison().ignoringFields("password","registered")
                 .ignoringCollectionOrder().isEqualTo(List.of(ADMIN));
     }
 
     @Test
     void get() {
-        User actual = userReprository.get(USER.getId());
+        User actual = userRepository.getById(USER.getId());
         assertThat(actual).isEqualTo(USER);
     }
 
     @Test
     void getAll() {
-        List<User> actualUserList = userReprository.getAll();
+        List<User> actualUserList = userRepository.findAll();
         assertThat(actualUserList).usingRecursiveComparison().ignoringFields("password","registered")
                 .ignoringCollectionOrder().isEqualTo(USERS);
     }

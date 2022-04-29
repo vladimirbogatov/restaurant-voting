@@ -4,10 +4,9 @@ import com.example.restaurantvoting.model.Restaurant;
 
 import java.util.List;
 
-import static com.example.restaurantvoting.model.AbstractBaseEntity.START_SEQ;
-
 public class RestaurantsTestData {
 
+    public static final int START_SEQ = 100_000;
     public static final int RESTAURANT_ID = START_SEQ + 5;
     public static final Restaurant RESTAURANT1 = new Restaurant(RESTAURANT_ID, "Прага");
     public static final Restaurant RESTAURANT2 = new Restaurant(RESTAURANT_ID + 1, "Рыба&Мясо");

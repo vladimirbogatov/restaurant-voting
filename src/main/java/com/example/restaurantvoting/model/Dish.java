@@ -20,11 +20,9 @@ import java.util.Objects;
 @Getter
 @Setter
 @Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "restaurant_id"}, name = "dish_unique_for_restaurant_idx")})
-@ToString(callSuper = true)
 public class Dish extends AbstractBaseEntity {
 
-    @ManyToOne
-    @Fetch(FetchMode.JOIN)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
@@ -56,5 +54,14 @@ public class Dish extends AbstractBaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), restaurant, name, price);
+    }
+
+    @Override
+    public String toString() {
+        return "Dish{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

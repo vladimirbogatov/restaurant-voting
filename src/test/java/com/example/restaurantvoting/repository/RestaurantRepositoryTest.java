@@ -23,25 +23,27 @@ class RestaurantRepositoryTest extends AbstractTestClass {
     @Test
     void save() {
         Restaurant actual = restaurantRepository.save(RestaurantsTestData.getNew());
-        assertThat(restaurantRepository.get(actual.getId())).isNotNull();
+        assertThat(restaurantRepository.getById(actual.getId())).isNotNull();
     }
+
 
     @Test
     void delete() {
         restaurantRepository.delete(RESTAURANT1.getId());
-        assertThat(restaurantRepository.getAll()).usingRecursiveComparison().ignoringFields("menu")
+        assertThat(restaurantRepository.findAll()).usingRecursiveComparison().ignoringFields("menu")
                 .ignoringCollectionOrder().isEqualTo(List.of(RESTAURANT2, RESTAURANT3));
     }
 
     @Test
     void get() {
-        Restaurant actualRestaurant = restaurantRepository.get(RESTAURANT1.getId());
+        Restaurant actualRestaurant = restaurantRepository.getById(RESTAURANT1.getId());
+        System.out.println(actualRestaurant);
         assertThat(actualRestaurant).isEqualTo(RESTAURANT1);
     }
 
     @Test
     void getAll() {
-        List<Restaurant> actualRestauralList = restaurantRepository.getAll();
+        List<Restaurant> actualRestauralList = restaurantRepository.findAll();
         assertThat(actualRestauralList).usingRecursiveComparison().ignoringFields("menu")
                 .ignoringCollectionOrder().isEqualTo(RESTAURANTS);
     }
