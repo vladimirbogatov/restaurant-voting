@@ -1,6 +1,5 @@
 package com.example.restaurantvoting.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +16,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"}, name = "name_unique_votes_idx")})
-public class Votes extends AbstractBaseEntity {
+public class Vote extends AbstractBaseEntity {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,15 +29,15 @@ public class Votes extends AbstractBaseEntity {
     @JoinColumn(name = "restaurant_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
-    
+
     private LocalDate date;
 
-    public Votes(User user, Restaurant restaurant) {
+    public Vote(User user, Restaurant restaurant) {
         this.user = user;
         this.restaurant = restaurant;
     }
 
-    public Votes(User user, Restaurant restaurant, LocalDate date) {
+    public Vote(User user, Restaurant restaurant, LocalDate date) {
         this(user, restaurant);
         this.date = date;
     }
@@ -58,8 +57,8 @@ public class Votes extends AbstractBaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        Votes votes = (Votes) o;
-        return Objects.equals(user, votes.user) && Objects.equals(restaurant, votes.restaurant) && Objects.equals(date, votes.date);
+        Vote vote = (Vote) o;
+        return Objects.equals(user, vote.user) && Objects.equals(restaurant, vote.restaurant) && Objects.equals(date, vote.date);
     }
 
     @Override

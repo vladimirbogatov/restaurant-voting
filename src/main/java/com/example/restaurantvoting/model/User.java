@@ -1,5 +1,6 @@
 package com.example.restaurantvoting.model;
 
+import com.example.restaurantvoting.HasIdAndEmail;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
@@ -20,7 +22,7 @@ import java.util.*;
 @NoArgsConstructor
 @Setter
 @Getter
-public class User extends AbstractBaseEntity {
+public class User extends AbstractBaseEntity implements HasIdAndEmail, Serializable {
 
     @NotBlank
     @Size(min = 2, max = 128)
@@ -56,7 +58,7 @@ public class User extends AbstractBaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
 
-    public User(Integer id, String name, String email, String password, boolean enabled, Date registered, Collection<Role> roles)  {
+    public User(Integer id, String name, String email, String password, boolean enabled, Date registered, Collection<Role> roles) {
         super(id);
         this.name = name;
         this.email = email;
