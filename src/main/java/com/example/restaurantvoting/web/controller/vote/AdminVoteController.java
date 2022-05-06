@@ -1,6 +1,7 @@
 package com.example.restaurantvoting.web.controller.vote;
 
 import com.example.restaurantvoting.repository.VotesRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,6 +21,7 @@ public class AdminVoteController {
     VotesRepository repository;
 
     @DeleteMapping("/user/{userId}/restaurant/{restaurantId}")
+    @Operation(summary = "admin delete vote")
     public void delete(@PathVariable int userId, @PathVariable int restaurantId, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         log.info("delete vote of user {} for restaurant {} at {}", userId, restaurantId, date);
         repository.delete(userId, restaurantId, date);

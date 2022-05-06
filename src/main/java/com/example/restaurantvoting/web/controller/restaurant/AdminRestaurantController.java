@@ -5,6 +5,7 @@ import com.example.restaurantvoting.repository.DishRepository;
 import com.example.restaurantvoting.repository.RestaurantRepository;
 import com.example.restaurantvoting.to.RestaurantTo;
 import com.example.restaurantvoting.util.RestaurantUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,10 +29,8 @@ public class AdminRestaurantController {
     @Autowired
     private RestaurantRepository repository;
 
-    @Autowired
-    private DishRepository dishRepository;
-
     @PostMapping
+    @Operation(summary = "admin create restaurant")
     public ResponseEntity<RestaurantTo> create(@RequestBody Restaurant restaurant) {
         log.info("create {}", restaurant);
         checkNew(restaurant);
@@ -45,10 +44,19 @@ public class AdminRestaurantController {
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "admin update restauarant")
     public void update(@RequestBody Restaurant restaurant, @PathVariable int id) {
         log.info("update {}", restaurant);
         assureIdConsistent(restaurant, id);
         repository.save(restaurant);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "admin delete restaurant")
+    public void delete(@PathVariable int id) {
+        log.info("delete restaurant {}", id);
+        repository.delete(id);
     }
 
 }

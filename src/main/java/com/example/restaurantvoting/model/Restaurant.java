@@ -1,5 +1,6 @@
 package com.example.restaurantvoting.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class Restaurant extends AbstractBaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private List<Dish> menu;
 
     public Restaurant(String name) {

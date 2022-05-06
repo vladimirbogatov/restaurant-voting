@@ -31,9 +31,9 @@ spring:
     is-getter: none
 
     # https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#common-application-properties-cache
-    #cache:
-    # cache-names: users
-    #caffeine.spec: maximumSize=5000,expireAfterAccess=60s
+  cache:
+    cache-names: users
+    caffeine.spec: maximumSize=5000,expireAfterAccess=60s
 
 logging:
   level:
@@ -47,8 +47,8 @@ server.servlet:
     enabled: true # Enable http encoding support
     force: true
 
-security:
-  user:
-    name: user
-    password: userPassword
-    roles: USER
+#security:
+ # user:
+  #  name: user
+   # password: userPassword
+    #roles: USER

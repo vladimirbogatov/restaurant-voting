@@ -1,6 +1,6 @@
 INSERT INTO users (name, email, password)
-VALUES ('User', 'user@yandex.ru', '{noop}userPassword'),
-       ('Admin', 'admin@gmail.com', '{noop}adminPassword');
+VALUES ('User', 'user@yandex.ru', '{noop}user'),
+       ('Admin', 'admin@gmail.com', '{noop}admin');
 
 INSERT INTO restaurants (name)
 VALUES ('Прага'),

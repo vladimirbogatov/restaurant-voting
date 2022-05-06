@@ -23,30 +23,31 @@ public class VotesUtil {
     }
 
 
-    public static boolean checkTime() {
+    public static boolean isTimeBeforeThreshold() {
         LocalTime nowTime = getNowTime();
         //        LocalTime nowTime = LocalTime.now();
         return !nowTime.isAfter(THRESHOLD_TIME);
     }
 
     public static Vote candidatePrepare(Vote candidate, Vote actual) {
-        if (!checkTime()) {
-            return actual;
-        }
         if (actual != null) {
-            candidate.setId(actual.getId());
+            if (isTimeBeforeThreshold()) {
+                candidate.setId(actual.getId());
+            } else {
+                return actual;
+            }
         }
         return candidate;
     }
 
     public static LocalTime getNowTime() {
-        return LocalTime.of(11, 01);
-//        return LocalTime.now();
+//        return LocalTime.of(11, 01);
+        return LocalTime.now();
     }
 
     public static LocalDate getNowDate() {
-        return LocalDate.of(2022, 05, 02);
-        //        return LocalDate.now();
+//        return LocalDate.of(2022, 05, 02);
+                return LocalDate.now();
     }
 
     public static LocalDate atStartOfDayOrMin(LocalDate localDate) {

@@ -5,8 +5,11 @@ import com.example.restaurantvoting.repository.VotesRepository;
 import com.example.restaurantvoting.to.UserTo;
 import com.example.restaurantvoting.util.UserUtil;
 import com.example.restaurantvoting.web.AuthUser;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +28,7 @@ import static com.example.restaurantvoting.util.validation.ValidationUtil.checkN
 @RequestMapping(value = ProfileUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 // TODO: cache only most requested data!
-//@CacheConfig(cacheNames = "users")
+@CacheConfig(cacheNames = "users")
 public class ProfileUserController extends AbstractUserController {
     static final String REST_URL = "/api/profile";
 
@@ -33,19 +36,22 @@ public class ProfileUserController extends AbstractUserController {
     VotesRepository votesRepository;
 
     @GetMapping
+    @Operation(summary = "get authorized user")
     public User get(@AuthenticationPrincipal AuthUser authUser) {
         return authUser.getUser();
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "delete authorized user")
     public void delete(@AuthenticationPrincipal AuthUser authUser) {
         super.delete(authUser.id());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-  //  @CacheEvict(allEntries = true)
+    @CacheEvict(allEntries = true)
+    @Operation(summary = "to register new user")
     public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
         log.info("register {}", userTo);
         checkNew(userTo);
@@ -58,7 +64,8 @@ public class ProfileUserController extends AbstractUserController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-  //  @CacheEvict(allEntries = true)
+    @CacheEvict(allEntries = true)
+    @Operation(summary = " update authorized user")
     public void update(@RequestBody @Valid UserTo userTo, @AuthenticationPrincipal AuthUser authUser) {
         assureIdConsistent(userTo, authUser.id());
         User user = authUser.getUser();

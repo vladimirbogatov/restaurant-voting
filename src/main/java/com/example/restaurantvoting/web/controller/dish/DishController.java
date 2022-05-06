@@ -5,6 +5,7 @@ import com.example.restaurantvoting.repository.RestaurantRepository;
 import com.example.restaurantvoting.to.DishTo;
 import com.example.restaurantvoting.util.DishUtil;
 import com.example.restaurantvoting.web.AuthUser;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,10 +28,8 @@ public class DishController {
     @Autowired
     private DishRepository repository;
 
-    @Autowired
-    private RestaurantRepository restaurantRepository;
-
     @GetMapping("/{id}")
+    @Operation(summary = "authorized user get dish by id")
     public ResponseEntity<DishTo> get(@PathVariable int id, @AuthenticationPrincipal AuthUser authUser) {
         log.info("get dish {}", id);
         DishTo dishTo = DishUtil.createTo(repository.getById(id));

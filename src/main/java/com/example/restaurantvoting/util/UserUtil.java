@@ -7,9 +7,6 @@ import lombok.experimental.UtilityClass;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Collection;
-import java.util.List;
-
 @UtilityClass
 public class UserUtil {
 
@@ -31,16 +28,4 @@ public class UserUtil {
         user.setEmail(user.getEmail().toLowerCase());
         return user;
     }
-/*
-
-    //todo убрать всё, что ниже
-    public static UserTo createTo(User user) {
-        return new UserTo(user.getId(), user.getName(), user.getEmail(), user.isEnabled());
-    }
-
-    public static List<UserTo> getTos(Collection<User> users) {
-        return users.stream().map(UserUtil::createTo).toList();
-    }*/
-
-
 }

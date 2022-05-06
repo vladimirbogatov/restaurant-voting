@@ -1,6 +1,7 @@
 package com.example.restaurantvoting.model;
 
 import com.example.restaurantvoting.HasId;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.data.domain.Persistable;
@@ -17,6 +18,7 @@ public abstract class AbstractBaseEntity implements Persistable<Integer>, HasId 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     protected Integer id;
 
     public boolean isNew() {

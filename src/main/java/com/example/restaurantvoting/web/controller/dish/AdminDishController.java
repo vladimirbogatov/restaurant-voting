@@ -5,6 +5,7 @@ import com.example.restaurantvoting.repository.DishRepository;
 import com.example.restaurantvoting.repository.RestaurantRepository;
 import com.example.restaurantvoting.to.DishTo;
 import com.example.restaurantvoting.util.DishUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,7 @@ public class AdminDishController {
     private RestaurantRepository restaurantRepository;
 
     @PostMapping("/restaurant/{id}")
+    @Operation(summary = "admin get dish by id")
     public ResponseEntity<DishTo> create(@RequestBody Dish dish, @PathVariable int id) {
         log.info("create {}", dish);
         checkNew(dish);
@@ -45,6 +47,7 @@ public class AdminDishController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "admin delete dish")
     public void delete(@PathVariable int id) {
         log.info("delete dish {}", id);
         repository.delete(id);
@@ -52,6 +55,7 @@ public class AdminDishController {
 
     @PatchMapping("/restaurant/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "admin update dish")
     public void update(@RequestBody Dish dish, @PathVariable int id) {
         log.info("update {}", dish);
         assureIdConsistent(dish.getRestaurant(), id);

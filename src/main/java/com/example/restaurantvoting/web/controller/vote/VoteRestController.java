@@ -7,6 +7,7 @@ import com.example.restaurantvoting.repository.VotesRepository;
 import com.example.restaurantvoting.to.VoteTo;
 import com.example.restaurantvoting.util.VotesUtil;
 import com.example.restaurantvoting.web.AuthUser;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -40,6 +41,7 @@ public class VoteRestController {
 
     // todo set auther user
     @GetMapping("/{id}")
+    @Operation(summary = "authorized user get his vote by id")
     public ResponseEntity<VoteTo> get(@PathVariable Integer id, @AuthenticationPrincipal AuthUser authUser) {
         log.info("get vote {}", id);
         VoteTo voteTo = VotesUtil.createTo(repository.getByIdAndUserId(id, authUser.id()));
@@ -47,9 +49,9 @@ public class VoteRestController {
     }
 
     @PostMapping
+    @Operation(summary = "authorized user create or update vote")
     public ResponseEntity<VoteTo> createOrUpdate(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
         log.info("create vote for restaurant {}", restaurantId);
-        //todo Не забыть заменить пользователя
         Vote candidateVote = new Vote(authUser.getUser(), restaurantRepository.getById(restaurantId), VotesUtil.getNowDate());
         Vote actual = repository.getVoteOfUserAtDate(authUser.id(), VotesUtil.getNowDate());
         Vote saved = repository.save(VotesUtil.candidatePrepare(candidateVote, actual));
@@ -60,6 +62,7 @@ public class VoteRestController {
     }
 
     @GetMapping("/restaurant/{id}")
+    @Operation(summary = "authorized user get all vote for restaurant")
     public List<VoteTo> getAllVotesForRestaurant(@PathVariable int id,
                                                  @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                                  @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
@@ -69,6 +72,7 @@ public class VoteRestController {
 
 
     @GetMapping("/user")
+    @Operation(summary = "authorized user get all his votes")
     public List<VoteTo> getAllVotesOfUser(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
                                           @AuthenticationPrincipal AuthUser authUser) {

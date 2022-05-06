@@ -1,27 +1,24 @@
 package com.example.restaurantvoting.web.controller.restaurant;
 
-import com.example.restaurantvoting.model.Restaurant;
 import com.example.restaurantvoting.repository.DishRepository;
 import com.example.restaurantvoting.repository.RestaurantRepository;
 import com.example.restaurantvoting.to.DishTo;
 import com.example.restaurantvoting.to.RestaurantTo;
 import com.example.restaurantvoting.util.DishUtil;
 import com.example.restaurantvoting.util.RestaurantUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
-
-import static com.example.restaurantvoting.util.validation.ValidationUtil.assureIdConsistent;
-import static com.example.restaurantvoting.util.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = RestaurantRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -36,6 +33,7 @@ public class RestaurantRestController {
     private DishRepository dishRepository;
 
     @GetMapping("/{id}")
+    @Operation(summary = "authorized user get restaurant by id")
     public ResponseEntity<RestaurantTo> get(@PathVariable int id) {
         log.info("get restaurant {}", id);
         RestaurantTo restaurantTo = RestaurantUtil.createTo(repository.getById(id));
@@ -44,19 +42,14 @@ public class RestaurantRestController {
 
 
     @GetMapping
+    @Operation(summary = "authorized user get all restaurants")
     public List<RestaurantTo> getAll() {
         log.info("get all restaurants");
         return RestaurantUtil.getTos(repository.findAll(Sort.by(Sort.Direction.ASC, "name")));
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        log.info("delete restaurant {}", id);
-        repository.delete(id);
-    }
-
     @GetMapping("/{id}/menu")
+    @Operation(summary = "authorized user get menu of restaurants (id)")
     public List<DishTo> getMenu(@PathVariable int id) {
         log.info("get menu for restaurant {}", id);
         return DishUtil.getTos(dishRepository.getMenu(id));
