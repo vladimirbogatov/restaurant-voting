@@ -29,7 +29,7 @@ public interface VotesRepository extends JpaRepository<Vote, Integer> {
     @Query("SELECT v from Vote v WHERE v.user.id=:user_id AND v.date >= :startDate AND v.date <= :endDate ORDER BY v.date DESC")
     List<Vote> getAllVotesOfUser(@Param("user_id") int user_id, @Param("startDate") LocalDate startDate,
                                  @Param("endDate") LocalDate endDate);
-//todo в Admin controller
+
     @Transactional
     @Modifying
     @Query("DELETE FROM Vote v WHERE v.user.id=:user_id AND v.restaurant.id=:restaurant_id AND v.date=:date")

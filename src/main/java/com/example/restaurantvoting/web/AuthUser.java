@@ -19,8 +19,4 @@ public class AuthUser extends org.springframework.security.core.userdetails.User
     public int id() {
         return user.id();
     }
-// todo убрать. Это для тестов
-    public static int getAuthUser() {
-        return 2;
-    }
 }

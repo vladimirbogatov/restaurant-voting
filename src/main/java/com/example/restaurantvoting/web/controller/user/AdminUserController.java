@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class AdminUserController extends AbstractUserController {
     @PostMapping
     @CacheEvict(allEntries = true)
     @Operation(summary = "admin create new user")
-    public ResponseEntity<User> create(@RequestBody User user) {
+    public ResponseEntity<User> create(@RequestBody @Valid User user) {
         log.info("create user {}", user);
         checkNew(user);
         User created = prepareAndSave(user);
@@ -74,7 +75,7 @@ public class AdminUserController extends AbstractUserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
     @Operation(summary = "admin update user")
-    public void update(@RequestBody User user, @PathVariable int id) {
+    public void update(@RequestBody @Valid User user, @PathVariable int id) {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         prepareAndSave(user);

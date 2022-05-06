@@ -3,6 +3,8 @@ package com.example.restaurantvoting.util.validation;
 import com.example.restaurantvoting.HasId;
 import com.example.restaurantvoting.error.IllegalRequestDataException;
 import lombok.experimental.UtilityClass;
+import org.springframework.core.NestedExceptionUtils;
+import org.springframework.lang.NonNull;
 
 @UtilityClass
 public class ValidationUtil {
@@ -28,4 +30,9 @@ public class ValidationUtil {
         }
     }
 
+    @NonNull
+    public static Throwable getRootCause(@NonNull Throwable t) {
+        Throwable rootCause = NestedExceptionUtils.getRootCause(t);
+        return rootCause != null ? rootCause : t;
+    }
 }

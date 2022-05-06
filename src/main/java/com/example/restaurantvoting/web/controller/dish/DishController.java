@@ -1,7 +1,6 @@
 package com.example.restaurantvoting.web.controller.dish;
 
 import com.example.restaurantvoting.repository.DishRepository;
-import com.example.restaurantvoting.repository.RestaurantRepository;
 import com.example.restaurantvoting.to.DishTo;
 import com.example.restaurantvoting.util.DishUtil;
 import com.example.restaurantvoting.web.AuthUser;

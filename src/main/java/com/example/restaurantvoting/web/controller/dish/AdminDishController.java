@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 import static com.example.restaurantvoting.util.validation.ValidationUtil.assureIdConsistent;
@@ -34,7 +35,7 @@ public class AdminDishController {
 
     @PostMapping("/restaurant/{id}")
     @Operation(summary = "admin get dish by id")
-    public ResponseEntity<DishTo> create(@RequestBody Dish dish, @PathVariable int id) {
+    public ResponseEntity<DishTo> create(@RequestBody @Valid Dish dish, @PathVariable int id) {
         log.info("create {}", dish);
         checkNew(dish);
         dish.setRestaurant(restaurantRepository.getById(id));
@@ -56,7 +57,7 @@ public class AdminDishController {
     @PatchMapping("/restaurant/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "admin update dish")
-    public void update(@RequestBody Dish dish, @PathVariable int id) {
+    public void update(@RequestBody @Valid Dish dish, @PathVariable int id) {
         log.info("update {}", dish);
         assureIdConsistent(dish.getRestaurant(), id);
         dish.setRestaurant(restaurantRepository.getById(id));

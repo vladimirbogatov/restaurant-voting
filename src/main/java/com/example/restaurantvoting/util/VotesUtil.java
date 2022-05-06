@@ -47,7 +47,7 @@ public class VotesUtil {
 
     public static LocalDate getNowDate() {
 //        return LocalDate.of(2022, 05, 02);
-                return LocalDate.now();
+        return LocalDate.now();
     }
 
     public static LocalDate atStartOfDayOrMin(LocalDate localDate) {
