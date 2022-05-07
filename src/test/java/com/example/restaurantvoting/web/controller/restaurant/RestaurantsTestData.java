@@ -1,11 +1,10 @@
 package com.example.restaurantvoting.web.controller.restaurant;
 
 import com.example.restaurantvoting.model.Restaurant;
+import com.example.restaurantvoting.web.controller.AbstractControllerTest;
 import com.example.restaurantvoting.web.controller.MatcherFactory;
 
 import java.util.List;
-
-import static com.example.restaurantvoting.web.controller.user.UserTestData.USER_ID;
 
 public class RestaurantsTestData {
 
@@ -25,5 +24,7 @@ public class RestaurantsTestData {
     public static Restaurant getUpdated() {
         return new Restaurant(RESTAURANT_ID, "Прага новая");
     }
+
+
 }
 

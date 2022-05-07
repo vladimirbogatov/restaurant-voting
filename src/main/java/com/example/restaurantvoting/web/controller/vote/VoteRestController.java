@@ -52,7 +52,7 @@ public class VoteRestController {
     @Operation(summary = "authorized user create or update vote")
     public ResponseEntity<VoteTo> createOrUpdate(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
         log.info("create vote for restaurant {}", restaurantId);
-        Vote candidateVote = new Vote(authUser.getUser(), restaurantRepository.getById(restaurantId), VotesUtil.getNowDate());
+        Vote candidateVote = new Vote(null, authUser.getUser(), restaurantRepository.getById(restaurantId), VotesUtil.getNowDate());
         Vote actual = repository.getVoteOfUserAtDate(authUser.id(), VotesUtil.getNowDate());
         Vote saved = repository.save(VotesUtil.candidatePrepare(candidateVote, actual));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()

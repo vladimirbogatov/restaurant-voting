@@ -75,7 +75,7 @@ public class AdminUserController extends AbstractUserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
     @Operation(summary = "admin update user")
-    public void update(@RequestBody @Valid User user, @PathVariable int id) {
+    public void update(@RequestBody User user, @PathVariable int id) {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         prepareAndSave(user);

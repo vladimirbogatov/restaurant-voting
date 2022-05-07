@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface VotesRepository extends JpaRepository<Vote, Integer> {
+public interface VotesRepository extends BaseRepository<Vote> {
 
     @Transactional
     @Query("select v from Vote v where v.id = ?1 and v.user.id = ?2")

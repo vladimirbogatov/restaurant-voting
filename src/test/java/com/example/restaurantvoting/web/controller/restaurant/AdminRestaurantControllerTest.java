@@ -46,7 +46,6 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(getUpdated())))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-
     }
 
     @Test

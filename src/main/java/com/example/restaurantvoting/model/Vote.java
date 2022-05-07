@@ -32,16 +32,16 @@ public class Vote extends AbstractBaseEntity {
 
     private LocalDate date;
 
-    public Vote(User user, Restaurant restaurant) {
+    public Vote(Integer id, User user, Restaurant restaurant) {
+        super(id);
         this.user = user;
         this.restaurant = restaurant;
     }
 
-    public Vote(User user, Restaurant restaurant, LocalDate date) {
-        this(user, restaurant);
+    public Vote(Integer id, User user, Restaurant restaurant, LocalDate date) {
+        this(id, user, restaurant);
         this.date = date;
     }
-
     @Override
     public String toString() {
         return "Votes{" +
