@@ -1,12 +1,12 @@
-package com.example.restaurantvoting;
+package com.example.restaurantvoting.web.controller.vote;
 
 import com.example.restaurantvoting.model.Vote;
 
 import java.time.LocalDate;
 
-import static com.example.restaurantvoting.RestaurantsTestData.*;
-import static com.example.restaurantvoting.UserTestData.ADMIN;
-import static com.example.restaurantvoting.UserTestData.USER;
+import static com.example.restaurantvoting.web.controller.restaurant.RestaurantsTestData.*;
+import static com.example.restaurantvoting.web.controller.user.UserTestData.ADMIN;
+import static com.example.restaurantvoting.web.controller.user.UserTestData.USER;
 
 public class VotesTestData {
     public static final Vote USER_VOTE_TODAY = new Vote(USER, RESTAURANT1, LocalDate.now());

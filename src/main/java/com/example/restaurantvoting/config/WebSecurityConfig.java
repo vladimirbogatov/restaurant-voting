@@ -3,7 +3,9 @@ package com.example.restaurantvoting.config;
 import com.example.restaurantvoting.model.Role;
 import com.example.restaurantvoting.model.User;
 import com.example.restaurantvoting.repository.UserRepository;
+import com.example.restaurantvoting.util.JsonUtil;
 import com.example.restaurantvoting.web.AuthUser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +31,11 @@ import static com.example.restaurantvoting.util.UserUtil.PASSWORD_ENCODER;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserRepository userRepository;
-/*
+
     @Autowired
     private void setMapper(ObjectMapper objectMapper) {
         JsonUtil.setMapper(objectMapper);
-    }*/
+    }
 
     @Bean
     @Override

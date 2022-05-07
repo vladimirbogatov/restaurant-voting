@@ -44,7 +44,7 @@ public class AdminRestaurantController {
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "admin update restauarant")
+    @Operation(summary = "admin update restaurant")
     public void update(@RequestBody @Valid Restaurant restaurant, @PathVariable int id) {
         log.info("update {}", restaurant);
         assureIdConsistent(restaurant, id);
