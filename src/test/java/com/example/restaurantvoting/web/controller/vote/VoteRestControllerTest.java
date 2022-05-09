@@ -99,7 +99,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
         DateTimeProvider.getInstance().setDateTime(customDateTime);
 
         int restaurantId = updated.getRestaurant_id();
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
+        perform(MockMvcRequestBuilders.post(REST_URL)
                 .param("restaurantId", Integer.toString(restaurantId)))
                 .andExpect(status().isCreated())
                 .andDo(print());

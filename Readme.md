@@ -1,7 +1,7 @@
 [TOPJAVA](https://topjava.ru/) Graduation project
 ===============================
 
-Graduation task is:
+Graduation task is
 --------------------
 Build a voting system for deciding where to have lunch.
 	• 2 types of users: admin and regular users
