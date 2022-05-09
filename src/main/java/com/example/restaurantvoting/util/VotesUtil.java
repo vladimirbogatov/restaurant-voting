@@ -2,6 +2,8 @@ package com.example.restaurantvoting.util;
 
 import com.example.restaurantvoting.model.Vote;
 import com.example.restaurantvoting.to.VoteTo;
+import com.example.restaurantvoting.util.time.DateTimeProvider;
+import com.example.restaurantvoting.util.time.DateTimeUtil;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDate;
@@ -12,7 +14,7 @@ import java.util.List;
 @UtilityClass
 public class VotesUtil {
 
-    private static final LocalTime THRESHOLD_TIME = LocalTime.of(11, 00);
+    public static final LocalTime THRESHOLD_TIME = LocalTime.of(11, 0);
 
     public static VoteTo createTo(Vote vote) {
         return new VoteTo(vote.getId(), vote.getRestaurant().getId(), vote.getDate());
@@ -22,10 +24,9 @@ public class VotesUtil {
         return votes.stream().map(VotesUtil::createTo).toList();
     }
 
-
     public static boolean isTimeBeforeThreshold() {
-        LocalTime nowTime = getNowTime();
-        //        LocalTime nowTime = LocalTime.now();
+        DateTimeUtil dateTimeUtil = new DateTimeUtil(DateTimeProvider.INSTANCE);
+        LocalTime nowTime = dateTimeUtil.getNow().toLocalTime();
         return !nowTime.isAfter(THRESHOLD_TIME);
     }
 
@@ -40,18 +41,13 @@ public class VotesUtil {
         return candidate;
     }
 
-    public static LocalTime getNowTime() {
-//        return LocalTime.of(11, 01);
-        return LocalTime.now();
-    }
-
     public static LocalDate getNowDate() {
-//        return LocalDate.of(2022, 05, 02);
-        return LocalDate.now();
+        DateTimeUtil dateTimeUtil = new DateTimeUtil(DateTimeProvider.INSTANCE);
+        return dateTimeUtil.getNow().toLocalDate();
     }
 
     public static LocalDate atStartOfDayOrMin(LocalDate localDate) {
-        return localDate != null ? localDate : LocalDate.of(2000, 01, 01);
+        return localDate != null ? localDate : LocalDate.of(2000, 1, 1);
     }
 
     public static LocalDate endOfDayOrMax(LocalDate localDate) {

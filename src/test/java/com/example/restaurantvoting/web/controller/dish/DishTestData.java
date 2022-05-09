@@ -1,7 +1,6 @@
 package com.example.restaurantvoting.web.controller.dish;
 
 import com.example.restaurantvoting.model.Dish;
-import com.example.restaurantvoting.model.Restaurant;
 import com.example.restaurantvoting.web.controller.MatcherFactory;
 import com.example.restaurantvoting.web.controller.restaurant.RestaurantsTestData;
 

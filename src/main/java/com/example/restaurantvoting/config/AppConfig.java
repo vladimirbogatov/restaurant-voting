@@ -1,5 +1,6 @@
 package com.example.restaurantvoting.config;
 
+import com.example.restaurantvoting.util.time.DateTimeProvider;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import lombok.extern.slf4j.Slf4j;
@@ -23,9 +24,13 @@ public class AppConfig {
         return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
     }
 
-    //    https://stackoverflow.com/a/46947975/548473
     @Bean
     Module module() {
         return new Hibernate5Module();
+    }
+
+    @Bean
+    DateTimeProvider dateTimeProvider() {
+        return DateTimeProvider.INSTANCE;
     }
 }

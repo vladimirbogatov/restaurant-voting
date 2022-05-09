@@ -29,5 +29,4 @@ public class UserTo extends NamedTo implements HasIdAndEmail {
         this.email = email;
         this.password = password;
     }
-
 }

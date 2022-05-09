@@ -1,7 +1,6 @@
 package com.example.restaurantvoting.web.controller.restaurant;
 
 import com.example.restaurantvoting.model.Restaurant;
-import com.example.restaurantvoting.web.controller.AbstractControllerTest;
 import com.example.restaurantvoting.web.controller.MatcherFactory;
 
 import java.util.List;

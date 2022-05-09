@@ -29,7 +29,6 @@ public class VoteRestController {
 
     protected static final String REST_URL = "/api/vote";
 
-
     @Autowired
     public VotesRepository repository;
 
@@ -69,7 +68,6 @@ public class VoteRestController {
         log.info("get votes for restaurant {} from {} to {}", id, startDate, endDate);
         return VotesUtil.getTos(repository.getAllVotesForRestaurants(id, VotesUtil.atStartOfDayOrMin(startDate), VotesUtil.endOfDayOrMax(endDate)));
     }
-
 
     @GetMapping("/user")
     @Operation(summary = "authorized user get all his votes")

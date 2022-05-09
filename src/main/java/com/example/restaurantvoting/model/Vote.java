@@ -42,6 +42,7 @@ public class Vote extends AbstractBaseEntity {
         this(id, user, restaurant);
         this.date = date;
     }
+
     @Override
     public String toString() {
         return "Votes{" +

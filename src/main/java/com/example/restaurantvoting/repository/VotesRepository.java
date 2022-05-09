@@ -1,7 +1,6 @@
 package com.example.restaurantvoting.repository;
 
 import com.example.restaurantvoting.model.Vote;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -8,7 +8,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static com.example.restaurantvoting.web.controller.restaurant.RestaurantsTestData.RESTAURANT_ID;
 import static com.example.restaurantvoting.web.controller.user.UserTestData.ADMIN_EMAIL;
 import static com.example.restaurantvoting.web.controller.user.UserTestData.USER_ID;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class AdminVoteControllerTest extends AbstractControllerTest {

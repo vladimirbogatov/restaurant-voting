@@ -58,5 +58,4 @@ public class AdminRestaurantController {
         log.info("delete restaurant {}", id);
         repository.delete(id);
     }
-
 }

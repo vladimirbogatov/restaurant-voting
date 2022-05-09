@@ -26,5 +26,4 @@ public class AdminVoteController {
         log.info("delete vote of user {} for restaurant {} at {}", userId, restaurantId, date);
         repository.delete(userId, restaurantId, date);
     }
-
 }
