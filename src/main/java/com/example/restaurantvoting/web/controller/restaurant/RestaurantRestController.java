@@ -24,7 +24,7 @@ import java.util.Optional;
 @RequestMapping(value = RestaurantRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 public class RestaurantRestController {
-    static final String REST_URL = "/api/restaurant";
+    protected static final String REST_URL = "/api/restaurant";
 
     @Autowired
     private RestaurantRepository repository;

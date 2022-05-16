@@ -30,15 +30,14 @@ public class VoteRestController {
     protected static final String REST_URL = "/api/vote";
 
     @Autowired
-    public VotesRepository repository;
+    private VotesRepository repository;
 
     @Autowired
-    public RestaurantRepository restaurantRepository;
+    private RestaurantRepository restaurantRepository;
 
     @Autowired
-    public UserRepository userRepository;
+    private UserRepository userRepository;
 
-    // todo set auther user
     @GetMapping("/{id}")
     @Operation(summary = "authorized user get his vote by id")
     public ResponseEntity<VoteTo> get(@PathVariable Integer id, @AuthenticationPrincipal AuthUser authUser) {

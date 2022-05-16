@@ -32,7 +32,7 @@ public class AdminUserController extends AbstractUserController {
     protected static final String REST_URL = "/api/admin/users";
 
     @Autowired
-    UserRepository repository;
+    private UserRepository repository;
 
     @GetMapping("/{id}")
     @Operation(summary = "admin get user by id")

@@ -5,12 +5,9 @@ import lombok.Value;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class RestaurantTo extends BaseTo {
-
-    String name;
+public class RestaurantTo extends NamedTo {
 
     public RestaurantTo(Integer id, String name) {
-        super(id);
-        this.name = name;
+        super(id, name);
     }
 }

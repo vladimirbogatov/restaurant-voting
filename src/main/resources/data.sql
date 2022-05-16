@@ -13,9 +13,9 @@ VALUES ('USER', 1),
        ('USER', 2);
 
 INSERT INTO dishes (restaurant_id, name, price)
-VALUES (1, 'Морс', 95),
-       (1, 'Кулебяка', 500.55),
-       (1, 'Борщ', 100);
+VALUES (1, 'Морс', 9500),
+       (1, 'Кулебяка', 50055),
+       (1, 'Борщ', 10000);
 
 INSERT INTO votes (user_id, restaurant_id, date)
 VALUES (2, 3, '2022-04-30'),

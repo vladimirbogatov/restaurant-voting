@@ -27,13 +27,12 @@ import static com.example.restaurantvoting.util.validation.ValidationUtil.checkN
 @RestController
 @RequestMapping(value = ProfileUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-// TODO: cache only most requested data!
 @CacheConfig(cacheNames = "users")
 public class ProfileUserController extends AbstractUserController {
-    static final String REST_URL = "/api/profile";
+    protected static final String REST_URL = "/api/profile";
 
     @Autowired
-    VotesRepository votesRepository;
+    private VotesRepository votesRepository;
 
     @GetMapping
     @Operation(summary = "get authorized user")

@@ -24,7 +24,7 @@ import static com.example.restaurantvoting.util.validation.ValidationUtil.checkN
 @Slf4j
 public class AdminRestaurantController {
 
-    static final String REST_URL = "/api/admin/restaurant";
+    protected static final String REST_URL = "/api/admin/restaurant";
 
     @Autowired
     private RestaurantRepository repository;

@@ -29,10 +29,9 @@ public class Dish extends AbstractBaseEntity {
     private String name;
 
     @NotNull
-    @Column(scale = 2)
-    private float price;
+    private int price;// price int penny, cents and ect.
 
-    public Dish(Integer id, Restaurant restaurant, String name, float price) {
+    public Dish(Integer id, Restaurant restaurant, String name, int price) {
         super(id);
         this.restaurant = restaurant;
         this.name = name;
@@ -45,7 +44,7 @@ public class Dish extends AbstractBaseEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Dish dish = (Dish) o;
-        return Float.compare(dish.price, price) == 0 && Objects.equals(restaurant, dish.restaurant) && Objects.equals(name, dish.name);
+        return dish.price == price && Objects.equals(restaurant, dish.restaurant) && Objects.equals(name, dish.name);
     }
 
     @Override

@@ -5,15 +5,12 @@ import lombok.Value;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class DishTo extends BaseTo {
+public class DishTo extends NamedTo {
 
-    String name;
+    int price;
 
-    float price;
-
-    public DishTo(Integer id, String name, float price) {
-        super(id);
-        this.name = name;
+    public DishTo(Integer id, String name, int price) {
+        super(id, name);
         this.price = price;
     }
 }
