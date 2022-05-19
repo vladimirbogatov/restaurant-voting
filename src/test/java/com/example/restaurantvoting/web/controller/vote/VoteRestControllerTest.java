@@ -18,12 +18,14 @@ import java.time.LocalTime;
 
 import static com.example.restaurantvoting.util.VotesUtil.THRESHOLD_TIME;
 import static com.example.restaurantvoting.web.controller.restaurant.RestaurantsTestData.RESTAURANT1;
+import static com.example.restaurantvoting.web.controller.restaurant.RestaurantsTestData.RESTAURANT_ID;
 import static com.example.restaurantvoting.web.controller.user.UserTestData.ADMIN_EMAIL;
 import static com.example.restaurantvoting.web.controller.user.UserTestData.USER_EMAIL;
 import static com.example.restaurantvoting.web.controller.vote.VotesTestData.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class VoteRestControllerTest extends AbstractControllerTest {
 
@@ -89,7 +91,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_EMAIL)
-    void createExistingBeforeThreshold() throws Exception {
+    void updateExistingBeforeThreshold() throws Exception {
         VoteTo existing = VotesTestData.getExisting();
         VoteTo updated = VotesTestData.getUpdate();
 
@@ -99,9 +101,9 @@ class VoteRestControllerTest extends AbstractControllerTest {
         DateTimeProvider.getInstance().setDateTime(customDateTime);
 
         int restaurantId = updated.getRestaurant_id();
-        perform(MockMvcRequestBuilders.post(REST_URL)
+        perform(MockMvcRequestBuilders.put(REST_URL)
                 .param("restaurantId", Integer.toString(restaurantId)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andDo(print());
 
         assertEquals(updated, VotesUtil.createTo(repository.getById(existing.getId())));
@@ -109,7 +111,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_EMAIL)
-    void createExistingAfterThreshold() throws Exception {
+    void updateExistingAfterThreshold() throws Exception {
         VoteTo existing = VotesTestData.getExisting();
         VoteTo updated = VotesTestData.getUpdate();
 
@@ -119,13 +121,44 @@ class VoteRestControllerTest extends AbstractControllerTest {
         DateTimeProvider.getInstance().setDateTime(customDateTime);
 
         int restaurantId = updated.getRestaurant_id();
-        perform(MockMvcRequestBuilders.post(REST_URL)
+        perform(MockMvcRequestBuilders.put(REST_URL)
                 .param("restaurantId", Integer.toString(restaurantId)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
 
         assertEquals(existing, VotesUtil.createTo(repository.getById(existing.getId())));
     }
+
+    @Test
+    @WithUserDetails(value = USER_EMAIL)
+    void tryToUpdateNotExisting() throws Exception {
+        LocalDate nowDate = DATE_02052022;//User haven't voted at this day
+        LocalTime customTime = THRESHOLD_TIME.minusMinutes(1);
+        LocalDateTime customDateTime = LocalDateTime.of(nowDate, customTime);
+        DateTimeProvider.getInstance().setDateTime(customDateTime);
+
+        int restaurantId = RESTAURANT_ID;
+        perform(MockMvcRequestBuilders.put(REST_URL)
+                .param("restaurantId", Integer.toString(restaurantId)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
+
+    @Test
+    @WithUserDetails(value = USER_EMAIL)
+    void tryToCreateExisting() throws Exception {
+        LocalDate nowDate = DATE_30042022;//User have voted at this day already
+        LocalTime customTime = THRESHOLD_TIME.minusMinutes(1);
+        LocalDateTime customDateTime = LocalDateTime.of(nowDate, customTime);
+        DateTimeProvider.getInstance().setDateTime(customDateTime);
+
+        int restaurantId = RESTAURANT_ID;
+        perform(MockMvcRequestBuilders.post(REST_URL)
+                .param("restaurantId", Integer.toString(restaurantId)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
+
 
     @Test
     @WithUserDetails(value = USER_EMAIL)

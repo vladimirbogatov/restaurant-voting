@@ -28,7 +28,6 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_EMAIL)
     void create() throws Exception {
         Dish newDish = getNew();
-        String js = JsonUtil.writeValue(newDish);
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL+"restaurant/"+RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newDish)))

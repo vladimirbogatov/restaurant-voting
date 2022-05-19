@@ -1,5 +1,6 @@
 package com.example.restaurantvoting.util;
 
+import com.example.restaurantvoting.error.IllegalRequestDataException;
 import com.example.restaurantvoting.model.Vote;
 import com.example.restaurantvoting.to.VoteTo;
 import com.example.restaurantvoting.util.time.DateTimeProvider;
@@ -27,16 +28,5 @@ public class VotesUtil {
         DateTimeUtil dateTimeUtil = new DateTimeUtil(DateTimeProvider.INSTANCE);
         LocalTime nowTime = dateTimeUtil.getNow().toLocalTime();
         return !nowTime.isAfter(THRESHOLD_TIME);
-    }
-
-    public static Vote candidatePrepare(Vote candidate, Vote actual) {
-        if (actual != null) {
-            if (isTimeBeforeThreshold()) {
-                candidate.setId(actual.getId());
-            } else {
-                return actual;
-            }
-        }
-        return candidate;
     }
 }

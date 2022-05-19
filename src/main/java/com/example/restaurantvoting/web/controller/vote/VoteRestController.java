@@ -1,5 +1,6 @@
 package com.example.restaurantvoting.web.controller.vote;
 
+import com.example.restaurantvoting.error.IllegalRequestDataException;
 import com.example.restaurantvoting.model.Vote;
 import com.example.restaurantvoting.repository.RestaurantRepository;
 import com.example.restaurantvoting.repository.UserRepository;
@@ -22,6 +23,8 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.restaurantvoting.util.VotesUtil.isTimeBeforeThreshold;
 
 @RestController
 @RequestMapping(value = VoteRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -56,26 +59,43 @@ public class VoteRestController {
         return ResponseEntity.of(Optional.of(voteTo));
     }
 
-    @PostMapping
+    @PostMapping()
     @Operation(summary = "authorized user create or update vote")
-    public ResponseEntity<VoteTo> createOrUpdate(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
+    public ResponseEntity<VoteTo> create(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
         log.info("create vote for restaurant {}", restaurantId);
-        Vote candidateVote = new Vote(null, authUser.getUser(), restaurantRepository.getById(restaurantId), DateTimeUtil.getNowDate());
         Vote actual = repository.getVoteOfUserAtDate(authUser.id(), DateTimeUtil.getNowDate());
-        Vote saved = repository.save(VotesUtil.candidatePrepare(candidateVote, actual));
+        if (actual != null) {
+            throw new IllegalRequestDataException("User already have voted today, try to update the vote");
+        }
+        Vote candidateVote = new Vote(null, authUser.getUser(), restaurantRepository.getById(restaurantId), DateTimeUtil.getNowDate());
+        Vote saved = repository.save(candidateVote);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(saved.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(VotesUtil.createTo(saved));
     }
 
-
+    @PutMapping
+    public void update(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
+        log.info("update vote for restaurant {}", restaurantId);
+        Vote actual = repository.getVoteOfUserAtDate(authUser.id(), DateTimeUtil.getNowDate());
+        if (actual == null) {
+            throw new IllegalRequestDataException("User haven't voted today yet, try to create a vote");
+        } else {
+            if (!isTimeBeforeThreshold()) {
+                throw new IllegalRequestDataException("User can't update his vote after threshold time");
+            }
+        }
+        Vote candidateVote = new Vote(null, authUser.getUser(), restaurantRepository.getById(restaurantId), DateTimeUtil.getNowDate());
+        candidateVote.setId(actual.getId());
+        repository.save(candidateVote);
+    }
 
     @GetMapping("/restaurant/{id}")
     @Operation(summary = "user get count votes for restaurant")
     public long getCountVotesForRestaurant(@PathVariable int id,
-                                         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-                                         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+                                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         log.info("get votes for restaurant {} from {} to {}", id, startDate, endDate);
         return repository.getCountVotesForRestaurant(id, DateTimeUtil.atStartOfDayOrMin(startDate), DateTimeUtil.endOfDayOrMax(endDate));
     }

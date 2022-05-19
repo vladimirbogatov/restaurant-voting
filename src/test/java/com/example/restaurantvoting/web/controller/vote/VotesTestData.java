@@ -28,6 +28,8 @@ public class VotesTestData {
         return USER_TO_VOTE_20220430;
     }
 
+
+
     public static VoteTo getUpdate() {
         return new VoteTo(2, 3, LocalDate.of(2022, 4, 30));
     }

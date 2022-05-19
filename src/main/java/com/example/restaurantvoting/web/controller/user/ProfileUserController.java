@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,7 @@ public class ProfileUserController extends AbstractUserController {
     private VotesRepository votesRepository;
 
     @GetMapping
+    @Cacheable
     @Operation(summary = "get authorized user")
     public User get(@AuthenticationPrincipal AuthUser authUser) {
         return authUser.getUser();
@@ -43,6 +45,7 @@ public class ProfileUserController extends AbstractUserController {
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "delete authorized user")
+    @CacheEvict(allEntries = true)
     public void delete(@AuthenticationPrincipal AuthUser authUser) {
         super.delete(authUser.id());
     }

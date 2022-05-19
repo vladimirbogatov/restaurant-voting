@@ -18,7 +18,6 @@ import javax.validation.Valid;
 import java.net.URI;
 
 import static com.example.restaurantvoting.util.validation.ValidationUtil.assureIdConsistent;
-import static com.example.restaurantvoting.util.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = AdminDishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
