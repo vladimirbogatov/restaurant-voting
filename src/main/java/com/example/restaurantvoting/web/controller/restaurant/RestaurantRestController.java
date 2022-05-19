@@ -6,17 +6,17 @@ import com.example.restaurantvoting.to.DishTo;
 import com.example.restaurantvoting.to.RestaurantTo;
 import com.example.restaurantvoting.util.DishUtil;
 import com.example.restaurantvoting.util.RestaurantUtil;
+import com.example.restaurantvoting.util.time.DateTimeUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,10 +48,12 @@ public class RestaurantRestController {
         return RestaurantUtil.getTos(repository.findAll(Sort.by(Sort.Direction.ASC, "name")));
     }
 
-    @GetMapping("/{id}/menu")
-    @Operation(summary = "authorized user get menu of restaurants (id)")
-    public List<DishTo> getMenu(@PathVariable int id) {
-        log.info("get menu for restaurant {}", id);
-        return DishUtil.getTos(dishRepository.getMenu(id));
+    @GetMapping("/{id}/menus")
+    @Operation(summary = "user get menues of restaurants (id) which actual from date to date")
+    public List<DishTo> getMenu(@PathVariable int id,
+                                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        log.info("get menu for restaurant {} which actual from {} to {}", id, startDate, endDate);
+        return DishUtil.getTos(dishRepository.getMenu(id, DateTimeUtil.atStartOfDayOrMin(startDate), DateTimeUtil.endOfDayOrMax(endDate)));
     }
 }

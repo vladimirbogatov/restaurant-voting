@@ -34,14 +34,14 @@ public class AdminDishController {
     private RestaurantRepository restaurantRepository;
 
     @PostMapping("/restaurant/{id}")
-    @Operation(summary = "admin get dish by id")
-    public ResponseEntity<DishTo> create(@RequestBody @Valid Dish dish, @PathVariable int id) {
-        log.info("create {}", dish);
-        checkNew(dish);
+    @Operation(summary = "admin create dish for restaurant (id)")
+    public ResponseEntity<DishTo> create(@RequestBody @Valid DishTo dishTo, @PathVariable int id) {
+        log.info("create {}", dishTo);
+        Dish dish = DishUtil.createNewFromTo(dishTo);
         dish.setRestaurant(restaurantRepository.getById(id));
         Dish saved = repository.save(dish);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
+                .path(DishController.REST_URL + "/{id}")
                 .buildAndExpand(saved.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(DishUtil.createTo(saved));
     }
@@ -54,7 +54,7 @@ public class AdminDishController {
         repository.delete(id);
     }
 
-    @PatchMapping("/restaurant/{id}")
+    @PutMapping("/restaurant/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "admin update dish")
     public void update(@RequestBody @Valid Dish dish, @PathVariable int id) {

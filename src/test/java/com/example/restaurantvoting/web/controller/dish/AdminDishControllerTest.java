@@ -28,9 +28,11 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_EMAIL)
     void create() throws Exception {
         Dish newDish = getNew();
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "restaurant/" + RESTAURANT_ID)
+        String js = JsonUtil.writeValue(newDish);
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL+"restaurant/"+RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newDish)));
+                .content(JsonUtil.writeValue(newDish)))
+                .andDo(print());
 
         Dish created = DISH_MATCHER.readFromJson(action);
         int newId = created.id();
@@ -53,7 +55,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_EMAIL)
     void update() throws Exception {
-        perform(MockMvcRequestBuilders.patch(REST_URL + "restaurant/" + RESTAURANT_ID)
+        perform(MockMvcRequestBuilders.put(REST_URL + "restaurant/" + RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(getUpdated())))
                 .andDo(print())

@@ -6,7 +6,6 @@ import com.example.restaurantvoting.util.time.DateTimeProvider;
 import com.example.restaurantvoting.util.time.DateTimeUtil;
 import lombok.experimental.UtilityClass;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.List;
@@ -39,18 +38,5 @@ public class VotesUtil {
             }
         }
         return candidate;
-    }
-
-    public static LocalDate getNowDate() {
-        DateTimeUtil dateTimeUtil = new DateTimeUtil(DateTimeProvider.INSTANCE);
-        return dateTimeUtil.getNow().toLocalDate();
-    }
-
-    public static LocalDate atStartOfDayOrMin(LocalDate localDate) {
-        return localDate != null ? localDate : LocalDate.of(2000, 1, 1);
-    }
-
-    public static LocalDate endOfDayOrMax(LocalDate localDate) {
-        return localDate != null ? localDate : LocalDate.of(3000, 12, 31);
     }
 }

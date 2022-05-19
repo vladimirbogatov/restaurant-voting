@@ -36,13 +36,13 @@ public class AdminRestaurantController {
         checkNew(restaurant);
         Restaurant saved = repository.save(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
+                .path(RestaurantRestController.REST_URL + "/{id}")
                 .buildAndExpand(saved.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(RestaurantUtil.createTo(saved));
     }
 
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "admin update restaurant")
     public void update(@RequestBody @Valid Restaurant restaurant, @PathVariable int id) {

@@ -6,6 +6,7 @@ import com.example.restaurantvoting.repository.UserRepository;
 import com.example.restaurantvoting.repository.VotesRepository;
 import com.example.restaurantvoting.to.VoteTo;
 import com.example.restaurantvoting.util.VotesUtil;
+import com.example.restaurantvoting.util.time.DateTimeUtil;
 import com.example.restaurantvoting.web.AuthUser;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
@@ -46,12 +47,21 @@ public class VoteRestController {
         return ResponseEntity.of(Optional.of(voteTo));
     }
 
+    @GetMapping
+    @Operation(summary = "authorized user get his vote for date")
+    public ResponseEntity<VoteTo> getForDate(@AuthenticationPrincipal AuthUser authUser,
+                                             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        log.info("get vote for {}", date);
+        VoteTo voteTo = VotesUtil.createTo(repository.getVoteOfUserAtDate(authUser.id(), date));
+        return ResponseEntity.of(Optional.of(voteTo));
+    }
+
     @PostMapping
     @Operation(summary = "authorized user create or update vote")
     public ResponseEntity<VoteTo> createOrUpdate(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
         log.info("create vote for restaurant {}", restaurantId);
-        Vote candidateVote = new Vote(null, authUser.getUser(), restaurantRepository.getById(restaurantId), VotesUtil.getNowDate());
-        Vote actual = repository.getVoteOfUserAtDate(authUser.id(), VotesUtil.getNowDate());
+        Vote candidateVote = new Vote(null, authUser.getUser(), restaurantRepository.getById(restaurantId), DateTimeUtil.getNowDate());
+        Vote actual = repository.getVoteOfUserAtDate(authUser.id(), DateTimeUtil.getNowDate());
         Vote saved = repository.save(VotesUtil.candidatePrepare(candidateVote, actual));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -59,13 +69,15 @@ public class VoteRestController {
         return ResponseEntity.created(uriOfNewResource).body(VotesUtil.createTo(saved));
     }
 
+
+
     @GetMapping("/restaurant/{id}")
-    @Operation(summary = "authorized user get all vote for restaurant")
-    public List<VoteTo> getAllVotesForRestaurant(@PathVariable int id,
-                                                 @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-                                                 @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+    @Operation(summary = "user get count votes for restaurant")
+    public long getCountVotesForRestaurant(@PathVariable int id,
+                                         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         log.info("get votes for restaurant {} from {} to {}", id, startDate, endDate);
-        return VotesUtil.getTos(repository.getAllVotesForRestaurants(id, VotesUtil.atStartOfDayOrMin(startDate), VotesUtil.endOfDayOrMax(endDate)));
+        return repository.getCountVotesForRestaurant(id, DateTimeUtil.atStartOfDayOrMin(startDate), DateTimeUtil.endOfDayOrMax(endDate));
     }
 
     @GetMapping("/user")
@@ -74,6 +86,6 @@ public class VoteRestController {
                                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
                                           @AuthenticationPrincipal AuthUser authUser) {
         log.info("get votes of user {} from {} to {}", authUser.id(), startDate, endDate);
-        return VotesUtil.getTos(repository.getAllVotesOfUser(authUser.id(), VotesUtil.atStartOfDayOrMin(startDate), VotesUtil.endOfDayOrMax(endDate)));
+        return VotesUtil.getTos(repository.getAllVotesOfUser(authUser.id(), DateTimeUtil.atStartOfDayOrMin(startDate), DateTimeUtil.endOfDayOrMax(endDate)));
     }
 }

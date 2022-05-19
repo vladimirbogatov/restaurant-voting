@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.Objects;
 
 
@@ -31,11 +32,16 @@ public class Dish extends AbstractBaseEntity {
     @NotNull
     private int price;// price int penny, cents and ect.
 
-    public Dish(Integer id, Restaurant restaurant, String name, int price) {
+    @Column(name = "created", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
+    @NotNull
+    private LocalDate created;
+
+    public Dish(Integer id, Restaurant restaurant, String name, int price, LocalDate created) {
         super(id);
         this.restaurant = restaurant;
         this.name = name;
         this.price = price;
+        this.created = created;
     }
 
     @Override

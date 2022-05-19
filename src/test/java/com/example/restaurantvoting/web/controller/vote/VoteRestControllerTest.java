@@ -23,7 +23,7 @@ import static com.example.restaurantvoting.web.controller.user.UserTestData.USER
 import static com.example.restaurantvoting.web.controller.vote.VotesTestData.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class VoteRestControllerTest extends AbstractControllerTest {
 
@@ -129,13 +129,13 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_EMAIL)
-    void getAllVotesForRestaurant() throws Exception {
+    void getCountVotesForRestaurant() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "restaurant/" + RESTAURANT1.id())
                 .param("startDate", "")
                 .param("endDate", ""))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(VOTE_TO_MATCHER.contentJson(VOTE_FOR_RESTAURANT1));
+                .andExpect(content().json("2"));
     }
 
     @Test
@@ -147,5 +147,15 @@ class VoteRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(VOTE_TO_MATCHER.contentJson(VOTE_OF_ADMIN));
+    }
+
+    @Test
+    @WithUserDetails(value = USER_EMAIL)
+    void getVoteForDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL)
+                .param("date", DATE_30042022.toString()))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(VOTE_TO_MATCHER.contentJson(USER_TO_VOTE_20220430));
     }
 }

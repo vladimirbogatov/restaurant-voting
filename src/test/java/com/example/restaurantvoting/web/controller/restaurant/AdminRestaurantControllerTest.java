@@ -41,7 +41,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_EMAIL)
     void update() throws Exception {
-        perform(MockMvcRequestBuilders.patch(REST_URL + RESTAURANT_ID)
+        perform(MockMvcRequestBuilders.put(REST_URL + RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(getUpdated())))
                 .andDo(print())

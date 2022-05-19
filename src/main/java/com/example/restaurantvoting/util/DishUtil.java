@@ -2,6 +2,7 @@ package com.example.restaurantvoting.util;
 
 import com.example.restaurantvoting.model.Dish;
 import com.example.restaurantvoting.to.DishTo;
+import com.example.restaurantvoting.util.time.DateTimeUtil;
 import lombok.experimental.UtilityClass;
 
 import java.util.Collection;
@@ -15,5 +16,9 @@ public class DishUtil {
 
     public static List<DishTo> getTos(Collection<Dish> dishes) {
         return dishes.stream().map(DishUtil::createTo).toList();
+    }
+
+    public static Dish createNewFromTo(DishTo dishTo) {
+        return new Dish(null, null, dishTo.getName(), dishTo.getPrice(), DateTimeUtil.getNowDate());
     }
 }

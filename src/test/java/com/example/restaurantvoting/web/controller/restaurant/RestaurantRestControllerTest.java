@@ -6,8 +6,10 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static com.example.restaurantvoting.web.controller.dish.DishTestData.DISH_MATCHER;
-import static com.example.restaurantvoting.web.controller.dish.DishTestData.MENU_RESTAURANT1;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static com.example.restaurantvoting.web.controller.dish.DishTestData.*;
 import static com.example.restaurantvoting.web.controller.restaurant.RestaurantsTestData.*;
 import static com.example.restaurantvoting.web.controller.user.UserTestData.USER_EMAIL;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -44,10 +46,13 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_EMAIL)
-    void getMenu() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_ID + "/menu"))
+    void getMenus() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_ID + "/menus")
+                .param("startDate", "")
+                .param("endDate", "2022-05-01"))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(DISH_MATCHER.contentJson(MENU_RESTAURANT1));
+                .andExpect(DISH_MATCHER.contentJson(Stream.concat(MENU_RESTAURANT1_NEW.stream(), MENU_RESTAURANT1.stream())
+                        .collect(Collectors.toList())));
     }
 }

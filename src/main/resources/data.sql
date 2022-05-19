@@ -12,10 +12,13 @@ VALUES ('USER', 1),
        ('ADMIN', 2),
        ('USER', 2);
 
-INSERT INTO dishes (restaurant_id, name, price)
-VALUES (1, 'Морс', 9500),
-       (1, 'Кулебяка', 50055),
-       (1, 'Борщ', 10000);
+INSERT INTO dishes (restaurant_id, name, price, created)
+VALUES (1, 'Морс', 9500, '2022-04-30'),
+       (1, 'Кулебяка', 50055, '2022-04-30'),
+       (1, 'Борщ', 10000, '2022-04-30'),
+       (1, 'Морс new', 10000, '2022-05-01'),
+       (1, 'Кулебяка new', 50555, '2022-05-01'),
+       (1, 'Борщ new', 10500, '2022-05-01');
 
 INSERT INTO votes (user_id, restaurant_id, date)
 VALUES (2, 3, '2022-04-30'),
